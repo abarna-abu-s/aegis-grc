@@ -1,0 +1,13 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+*.db
+uploads/
+dev_uploads/
+smoke_uploads/
+node_modules/
+e2e/test-results/
+e2e/playwright-report/
+.pytest_cache/
+.ruff_cache/
