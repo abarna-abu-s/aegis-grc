@@ -15,7 +15,12 @@ def _bool(name: str, default: bool = False) -> bool:
 class Settings:
     def __init__(self) -> None:
         self.env = os.getenv("APP_ENV", "development")
-        self.database_url = os.getenv("DATABASE_URL", "sqlite:///./aegis_demo.db")
+        url = os.getenv("DATABASE_URL", "sqlite:///./aegis_demo.db")
+        # Hosts (Render, Heroku...) hand out postgres:// or postgresql://; this app uses the psycopg 3 driver.
+        for prefix in ("postgres://", "postgresql://"):
+            if url.startswith(prefix):
+                url = "postgresql+psycopg://" + url[len(prefix):]
+        self.database_url = url
         self.jwt_secret = os.getenv("JWT_SECRET", "")
         self.jwt_algorithm = "HS256"
         self.token_minutes = int(os.getenv("ACCESS_TOKEN_MINUTES", "120"))
